@@ -37,6 +37,11 @@ Thumbs.db
 logs/
 *.log
 
+# Allow user log directories and files under resources/users
+!resources/users/
+!resources/users/**/log/
+!resources/users/**/*.log
+
 # Testing
 coverage/
 .nyc_output/
