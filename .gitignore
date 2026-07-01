@@ -19,15 +19,6 @@ release/
 *.tar.gz
 *.7z
 
-# Runtime data
-*.db
-*.db-shm
-*.db-wal
-*.db-journal
-*.sqlite
-*.sqlite3
-config.db
-
 # Environment variables
 .env
 .env.local
