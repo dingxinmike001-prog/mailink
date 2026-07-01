@@ -1,0 +1,82 @@
+<div class="email-detail-overlay" id="overlay">
+    <div class="email-detail-modal" id="modal">
+        <div class="email-detail-header" id="modalHeader">
+            <h3 class="email-detail-title" data-i18n="emailDetail.title">Email details</h3>
+            
+            <div class="email-detail-center-actions">
+                <button id="replyBtn" class="reply-btn" data-i18n-title="emailDetail.replyTitle" title="Reply to email">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 14 4 9 9 4"></polyline>
+                        <path d="M20 20v-7a4 4 0 0 0-4-4H4"></path>
+                    </svg>
+                    <span data-i18n="common.reply">Reply</span>
+                </button>
+            </div>
+            
+            <div class="email-detail-actions">
+                <button id="maximizeBtn" class="maximize-btn" data-i18n-title="common.maximize" title="maximize">
+                    <svg class="icon-maximize" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    </svg>
+                    <svg class="icon-restore" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="7" y="7" width="12" height="12" rx="1" ry="1"></rect>
+                        <rect x="3" y="3" width="12" height="12" rx="1" ry="1" fill="var(--bg-color, #fafafa)"></rect>
+                    </svg>
+                </button>
+                <button id="closeBtn" class="close-btn" data-i18n-title="common.close" title="close">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <div class="email-detail-content">
+            <div class="email-detail-loading" id="loadingState">
+                <div class="loading-spinner"></div>
+                <span data-i18n="common.loading">loading...</span>
+            </div>
+            
+            <div class="email-detail-body" id="detailBody" style="display: none;">
+                <div class="email-field email-field-row">
+                    <div class="email-field-item">
+                        <span class="field-label" data-i18n="emailDetail.from">sender：</span>
+                        <span class="field-value" id="fromField"></span>
+                    </div>
+                    <div class="email-field-item">
+                        <span class="field-label" data-i18n="emailDetail.to">recipient：</span>
+                        <span class="field-value" id="toField"></span>
+                    </div>
+                </div>
+                
+                <div class="email-field">
+                    <span class="field-label" data-i18n="emailDetail.subject">subject：</span>
+                    <span class="field-value" id="subjectField"></span>
+                </div>
+                
+                <div class="email-field">
+                    <span class="field-label" data-i18n="emailDetail.time">time：</span>
+                    <span class="field-value" id="dateField"></span>
+                </div>
+                
+                <div class="email-attachments" id="attachmentsSection" style="display: none;">
+                    <div class="attachments-header">
+                        <span class="field-label" data-i18n="emailDetail.attachments">attachment：</span>
+                        <span class="attachments-count" id="attachmentsCount"></span>
+                    </div>
+                    <div class="attachments-list" id="attachmentsList"></div>
+                </div>
+                
+                <div class="email-content">
+                    <div class="content-body" id="contentBody"></div>
+                </div>
+            </div>
+            
+            <div class="email-detail-empty" id="emptyState" style="display: none;">
+                <div class="empty-icon">📧</div>
+                <div class="empty-text" data-i18n="emailDetail.emptyTip">Please select an email to view details</div>
+            </div>
+        </div>
+    </div>
+</div>

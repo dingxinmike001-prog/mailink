@@ -1,0 +1,251 @@
+.email-list-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.email-list-content {
+    flex: 1;
+    overflow: auto;
+    min-height: 200px;
+}
+
+.email-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.email-table th {
+    background: #fafafa;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 500;
+    color: #262626;
+    border-bottom: 1px solid #e8e8e8;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    white-space: nowrap;
+}
+
+.email-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #f0f0f0;
+    color: #595959;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Checkbox column */
+.checkbox-col {
+    width: 40px !important;
+    min-width: 40px;
+    text-align: center !important;
+    padding: 10px 8px !important;
+}
+
+.checkbox-col input[type="checkbox"] {
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+    margin: 0;
+}
+
+/* Email row checkbox */
+.email-checkbox {
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+    margin: 0;
+}
+
+/* Column width */
+.email-table th:nth-child(1),
+.email-table td:nth-child(1) {
+    width: 40px;
+    min-width: 40px;
+    text-align: center;
+}
+
+.email-table th:nth-child(2),
+.email-table td:nth-child(2) {
+    width: 35%;
+}
+
+.email-table th:nth-child(3),
+.email-table td:nth-child(3) {
+    width: 40%;
+}
+
+.email-table th:nth-child(4),
+.email-table td:nth-child(4) {
+    width: 20%;
+    text-align: right;
+}
+
+/* Row states */
+.email-table tbody tr {
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.email-table tbody tr:hover {
+    background: #f5f5f5;
+}
+
+/* Unread email - blue background, bold text */
+.email-table tbody tr.unread {
+    background: #e6f7ff;
+}
+
+.email-table tbody tr.unread td {
+    font-weight: 500;
+    color: #262626;
+}
+
+/* Read email - gray text */
+.email-table tbody tr.read td {
+    color: #8c8c8c;
+    font-weight: normal;
+}
+
+.email-table tbody tr.selected {
+    background: #bae7ff;
+}
+
+/* Subject column styles */
+.subject-cell {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Email icon styles */
+.email-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+/* Attachment icon */
+.attachment-icon {
+    color: #595959;
+    margin-left: 4px;
+}
+
+/* Priority icon */
+.priority-icon {
+    margin-left: 4px;
+}
+
+.priority-high {
+    color: #ff4d4f;
+}
+
+.priority-normal {
+    color: #faad14;
+}
+
+.priority-low {
+    color: #1890ff;
+}
+
+/* Subject text */
+.subject-text {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Empty state */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.empty-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+}
+
+.empty-text {
+    font-size: 14px;
+    color: #8c8c8c;
+}
+
+/* Loading state */
+.loading-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+}
+
+.loading-spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid #f0f0f0;
+    border-top-color: #1890ff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-bottom: 12px;
+}
+
+.loading-text {
+    font-size: 14px;
+    color: #8c8c8c;
+}
+
+/* Pagination */
+.email-list-footer {
+    padding: 12px 16px;
+    border-top: 1px solid #f0f0f0;
+    background: #fafafa;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+}
+
+.page-btn {
+    padding: 6px 12px;
+    border: 1px solid #d9d9d9;
+    background: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    color: #595959;
+    transition: all 0.2s;
+}
+
+.page-btn:hover:not(:disabled) {
+    border-color: #1890ff;
+    color: #1890ff;
+}
+
+.page-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.page-info {
+    font-size: 13px;
+    color: #595959;
+}

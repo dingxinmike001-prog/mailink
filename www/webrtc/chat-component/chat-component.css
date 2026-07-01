@@ -1,0 +1,750 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  font-family: sans-serif;
+  background-color: white;
+}
+
+/* Button disabled state styles */
+.btn.disabled {
+    opacity: 0.6;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+/* Message display animation */
+.message-item {
+    animation: messageSlideIn 0.3s ease-out forwards;
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+@keyframes messageSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Status message animation */
+.status-animation {
+    animation: statusFade 3s ease-in-out forwards;
+}
+
+@keyframes statusFade {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    10% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    90% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}
+
+/* Styles for images being sent */
+.sending-image {
+    opacity: 0.5;
+    transition: opacity 0.5s ease;
+}
+
+textarea {
+  width: 100%;
+  margin-top: 8px;
+  box-sizing: border-box;
+}
+
+#main-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+  min-height: 0;
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+#chatDisplay {
+  flex: 0 0 60%;
+  min-height: 0;
+  overflow-y: auto !important;
+  width: 100%; 
+  border: 0px solid #999; 
+  padding: 5px; 
+  margin-bottom: 0; 
+  background-color: white; 
+  box-sizing: border-box;
+}
+
+#composerArea {
+  flex: 0 0 40%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+#top-controls,
+#all-controls {
+  flex: 0 0 auto;
+  flex-shrink: 0;
+}
+
+#msgInputContainer {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+#msgInput {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  transition: height 0.15s ease;
+}
+
+#fileInfo {
+  max-height: 30vh;
+  overflow-y: auto;
+}
+
+input {
+  width: 80%;
+}
+
+button {
+  margin: 4px;
+}
+
+/* Message container styles */
+.message-container {
+  display: flex;
+  align-items: flex-start;
+  padding: 8px 0;
+  border-bottom: 1px dotted #eee;
+}
+
+/* Sent message styles */
+.message-sent {
+  justify-content: flex-end;
+}
+
+/* Received message styles */
+.message-received {
+  justify-content: flex-start;
+}
+
+/* Avatar styles */
+.message-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  color: #666;
+  margin: 0 8px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+/* Internal SVG avatar styles */
+.message-avatar svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Message content styles */
+.message-content {
+  max-width: 70%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Message text styles */
+.message-text {
+  padding: 8px 12px;
+  border-radius: 18px;
+  word-wrap: break-word;
+  line-height: 1.4;
+}
+
+/* Sent message text styles */
+.message-sent .message-text {
+  background-color: #0066cc;
+  color: white;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+
+/* Received message text styles */
+.message-received .message-text {
+  background-color: #f0f0f0;
+  color: #333;
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+}
+
+/* Message status styles */
+.message-status {
+  font-size: 0.8em;
+  margin-top: 4px;
+  padding: 0 12px;
+}
+
+/* Sent message status styles */
+.message-sent .message-status {
+  color: #999;
+  align-self: flex-end;
+}
+
+/* Received message status styles */
+.message-received .message-status {
+  color: #999;
+  align-self: flex-start;
+}
+
+/* Top controls */
+#top-controls {
+  display: flex; 
+  gap: 10px; 
+  margin: 6px 0 6px 0; 
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* Video container styles */
+#video-container {
+  position: fixed;
+  top: 90px;
+  right: 20px;
+  width: 360px;
+  height: 240px;
+  background-color: #000;
+  border-radius: 8px;
+  overflow: hidden;
+  display: none;
+  z-index: 500; /* Matches --z-shadow-popover */
+}
+
+#video-container video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#video-drag-handle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 28px;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  font-size: 12px;
+  cursor: move;
+  z-index: 20;
+}
+
+/* Unified button styles */
+.unified-btn {
+  height: 32px;
+  padding: 0 16px;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #4CAF50;
+  color: white;
+  margin: 0;
+}
+
+.unified-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.unified-btn:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.unified-btn .icon {
+  font-size: 16px;
+}
+
+/* Button color differentiation */
+.call-init {
+  background-color: #4CAF50;
+}
+
+.call-active {
+  background-color: #2196F3;
+}
+
+.end-call {
+  background-color: #f44336;
+}
+
+/* Send button styles */
+#sendBtn {
+  background-color: #2196F3;
+}
+
+/* File select button styles */
+#selectFileBtn {
+  background-color: #9E9E9E;
+}
+
+/* Streaming video message styles */
+.streaming-video-message {
+  margin: 8px 0;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #1a1a1a;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.streaming-video-message .video-container {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+}
+
+.streaming-video-message video {
+  width: 100%;
+  display: block;
+  border-radius: 8px;
+  position: relative;
+  z-index: 1;
+}
+
+.streaming-video-message .video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  padding: 12px;
+  background: linear-gradient(rgba(0,0,0,0.8), transparent);
+  color: white;
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  pointer-events: none;
+}
+
+/* Overlay for historical video messages - hidden by default, shown on hover */
+.streaming-video-message.transfer-completed .video-overlay {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.streaming-video-message.transfer-completed:hover .video-overlay {
+  opacity: 1;
+}
+
+.streaming-video-message .stream-status {
+  font-weight: 600;
+  color: #ffc107;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.streaming-video-message .stream-status::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ffc107;
+  animation: pulse 1.5s infinite;
+}
+
+.streaming-video-message .stream-status.playable {
+  color: #4CAF50;
+}
+
+.streaming-video-message .stream-status.playable::before {
+  background: #4CAF50;
+  animation: none;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+.streaming-video-message .file-name {
+  font-size: 11px;
+  opacity: 0.9;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.streaming-video-message .file-size {
+  font-size: 10px;
+  opacity: 0.7;
+}
+
+.streaming-video-message .stream-progress-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  height: 3px;
+  background: rgba(255,255,255,0.2);
+}
+
+.streaming-video-message .stream-progress {
+  height: 100%;
+  background: linear-gradient(90deg, #4CAF50, #8BC34A);
+  transition: width 0.3s ease;
+  box-shadow: 0 0 4px rgba(76, 175, 80, 0.5);
+}
+
+/* File action buttons hidden by default */
+.file-complete-actions {
+  display: none;
+}
+
+/* Image message container styles */
+.image-message {
+  position: relative;
+  display: inline-block;
+}
+
+/* Action button positions in image messages */
+.image-message .file-complete-actions {
+  margin-top: 8px;
+  justify-content: flex-start;
+}
+
+/* Action button positions in streaming video messages */
+.streaming-video-message .file-complete-actions {
+  margin-top: 8px;
+  justify-content: flex-start;
+}
+
+/* Open folder button styles */
+.open-folder-btn {
+  padding: 6px 12px;
+  font-size: 12px;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.open-folder-btn:hover {
+  background: #45a049;
+}
+
+/* Save as button styles */
+.save-as-btn {
+  padding: 6px 12px;
+  font-size: 12px;
+  background: #2196F3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.save-as-btn:hover {
+  background: #1976D2;
+}
+
+/* ==================== File request styles (2-row layout) ==================== */
+
+/* File request container */
+.file-request {
+  background: #f5f5f5;
+  border-radius: 8px;
+  padding: 12px;
+  margin: 8px 0;
+  min-width: 280px;
+  max-width: 400px;
+}
+
+/* Ordinary file messages can be clicked to open after transfer completes */
+.file-request.transfer-completed:not(.image-message):not(.streaming-video-message) {
+  cursor: pointer;
+}
+
+.file-request.transfer-completed:not(.image-message):not(.streaming-video-message):hover {
+  background: #ebebeb;
+}
+
+/* File info row (icon + details) */
+.file-request .file-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+/* File icon */
+.file-request .file-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+/* File details container */
+.file-request .file-details {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* File name (row 1) */
+.file-request .file-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.3;
+}
+
+/* File metadata row (row 2: size + status) */
+.file-request .file-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #666;
+  line-height: 1.2;
+}
+
+/* File size */
+.file-request .file-size {
+  color: #888;
+  white-space: nowrap;
+}
+
+/* File status */
+.file-request .file-status {
+  color: #2196F3;
+  white-space: nowrap;
+}
+
+/* Progress bar container */
+.file-request .progress-container {
+  width: 100%;
+  height: 4px;
+  background: #e0e0e0;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+/* Progress bar */
+.file-request .progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #4CAF50, #8BC34A);
+  transition: width 0.3s ease;
+  font-size: 0;
+}
+
+/* File action buttons */
+.file-request .file-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.file-request .file-actions button,
+.file-request .file-actions-inline button {
+  padding: 4px 12px;
+  font-size: 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background: #e0e0e0;
+  color: #333;
+  transition: background 0.2s ease;
+}
+
+.file-request .file-actions button:hover,
+.file-request .file-actions-inline button:hover {
+  background: #d0d0d0;
+}
+
+/* Accept button */
+.file-request .accept-btn {
+  background: #4CAF50 !important;
+  color: white !important;
+}
+
+.file-request .accept-btn:hover {
+  background: #45a049 !important;
+}
+
+/* Reject button */
+.file-request .reject-btn {
+  background: #f44336 !important;
+  color: white !important;
+}
+
+.file-request .reject-btn:hover {
+  background: #e53935 !important;
+}
+
+/* File attachment styles (email attachments) */
+.file-attachment {
+  background: #f5f5f5;
+  border-radius: 8px;
+  padding: 12px;
+  margin: 8px 0;
+}
+
+.file-attachment .file-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.file-attachment .file-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.file-attachment .file-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.file-attachment .file-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 4px;
+}
+
+.file-attachment .file-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+  color: #666;
+}
+
+.file-attachment .file-actions-inline {
+  display: flex;
+  gap: 8px;
+}
+
+.file-attachment .file-actions-inline button {
+  padding: 2px 8px;
+  font-size: 11px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  background: #2196F3;
+  color: white;
+}
+
+.file-attachment .file-actions-inline button:hover {
+  background: #1976D2;
+}
+
+/* Context menu styles */
+.context-menu {
+  position: fixed;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 4px 0;
+  min-width: 120px;
+  z-index: 2000;
+}
+
+.context-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+  transition: background 0.15s ease;
+}
+
+.context-menu-item:hover {
+  background: #f5f5f5;
+}
+
+.context-menu-icon {
+  font-size: 14px;
+  width: 20px;
+  text-align: center;
+}
+
+.context-menu-text {
+  flex: 1;
+}
+
+/* Menu separator */
+.context-menu-separator {
+  height: 1px;
+  background: #e0e0e0;
+  margin: 4px 0;
+}
+
+/* Loading indicator animation */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Historical message loading indicator */
+#history-loading-indicator {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}

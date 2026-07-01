@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="app.title">Mailink - Email Fast Chat</title>
+    <link rel="stylesheet" href="index/styles.css">
+    <!-- Load global utility function library -->
+    <script src="utils.js"></script>
+    <script src="ui/status-global.js"></script>
+    <script src="i18n.js"></script>
+    <!-- Include SparkMD5 library for file hash calculation (local file to avoid CDN issues) -->
+    <script src="spark-md5.min.js"></script>
+    <!-- New contact avatar sync storage module -->
+    <script src="js/newContactStorage.js"></script>
+</head>
+
+<body>
+    <!-- Custom title bar -->
+    <div class="custom-titlebar">
+        <div class="titlebar-drag-region">
+            <img class="titlebar-icon" id="titlebarIcon" src="" alt="Mailink" style="display: none;">
+            <img class="titlebar-avatar" id="titlebarAvatar" style="display: none;" data-i18n-alt="app.userAvatarAlt" alt="User Avatar">
+            <span id="titlebar-unread-badge" class="titlebar-unread-badge" style="display: none;">0</span>
+            <span class="titlebar-title" data-i18n="app.titlebar">Mailink - Email Fast Chat</span>
+            <span class="titlebar-nat" id="titlebarNat"></span>
+        </div>
+        <div class="titlebar-controls">
+            <button class="titlebar-btn debug" data-i18n-title="titlebar.debugTools" title="Show/Hide Developer Tools">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 4L5 6L2 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10 4L7 6L10 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            <button class="titlebar-btn logout" data-i18n-title="titlebar.logout" title="Logout">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 1V6M6 6V11M6 6H1M6 6H11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" transform="rotate(180 6 6)"/>
+                    <path d="M8 3L11 6L8 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            <button class="titlebar-btn minimize" data-i18n-title="common.minimize" title="Minimize">
+                <svg width="12" height="12" viewBox="0 0 12 12">
+                    <rect x="1" y="5.5" width="10" height="1" fill="currentColor"/>
+                </svg>
+            </button>
+            <button class="titlebar-btn maximize" data-i18n-title="titlebar.maximizeRestore" title="Maximize/Restore" style="display: none;">
+                <svg width="12" height="12" viewBox="0 0 12 12">
+                    <rect x="1.5" y="1.5" width="9" height="9" stroke="currentColor" fill="none" stroke-width="1.2"/>
+                </svg>
+            </button>
+            <button class="titlebar-btn close" data-i18n-title="common.close" title="Close">
+                <svg width="12" height="12" viewBox="0 0 12 12">
+                    <path d="M1.5 1.5l9 9M10.5 1.5l-9 9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="config-section">
+            <div class="config-selector">
+                <select id="langSelect" class="lang-select"></select>
+                <select id="configSelect" class="config-select">
+                    <option value="" data-i18n="login.selectEmail">Please select login email</option>
+                </select>
+                <span id="statusArea"></span>
+            </div>
+            <div class="config-avatar-container">
+                <img id="configAvatar" class="config-avatar" src="" data-i18n-alt="app.accountAvatarAlt" alt="Account Avatar" style="display: none;">
+            </div>
+            <div class="config-actions">
+                <button id="loginBtn" class="btn btn-login" disabled data-i18n="login.loginBtn">🔑 Login</button>
+            </div>
+            <div class="config-actions config-actions-secondary">
+                <button id="addConfigBtn" class="btn btn-primary" data-i18n="login.addAccount">➕ Add Account</button>
+                <button id="editConfigBtn" class="btn btn-warning" disabled data-i18n="login.editAccount">✏️ Edit Account</button>
+            </div>
+
+            <!-- Email settings input form -->
+            <div id="configForm" class="config-form" style="display: none;">
+                <form id="emailConfigForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="emailType" data-i18n="configForm.emailType">Email Type:</label>
+                            <select id="emailType" name="emailType" class="email-type-select">
+                                <option value="" data-i18n="configForm.selectService">Select or enter email service</option>
+                                <option value="qq" data-i18n="emailProviders.qq">QQ Mail</option>
+                                <option value="163" data-i18n="emailProviders.163">163 Mail</option>
+                                <option value="139" data-i18n="emailProviders.139">China Mobile 139 Mail</option>
+                                <option value="gmail" data-i18n="emailProviders.gmail">Gmail</option>
+                                <option value="outlook" data-i18n="emailProviders.outlook">Outlook Mail</option>
+                                <option value="yahoo" data-i18n="emailProviders.yahoo">Yahoo Mail</option>
+                                <option value="protonmail" data-i18n="emailProviders.protonmail">ProtonMail</option>
+                                <option value="126" data-i18n="emailProviders.126">126 Mail</option>
+                                <option value="sina" data-i18n="emailProviders.sina">Sina Mail</option>
+                                <option value="189" data-i18n="emailProviders.189">China Telecom 189 Mail</option>
+                                <option value="qqex" data-i18n="emailProviders.qqex">QQ Enterprise Mail</option>
+                                <option value="aliyun" data-i18n="emailProviders.aliyun">Alibaba Cloud Enterprise Mail</option>
+                                <option value="sohu" data-i18n="emailProviders.sohu">Sohu Mail</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row hidden-by-default">
+                        <div class="form-group">
+                            <label for="configName" data-i18n="configForm.accountName">Account Name:</label>
+                            <input type="text" id="configName" name="name" required data-i18n-placeholder="configForm.accountNamePlaceholder" placeholder="e.g. My QQ Mail">
+                        </div>
+                    </div>
+
+                    <div class="form-row hidden-by-default">
+                        <div class="form-group">
+                            <label for="imapHost" data-i18n="configForm.imapServer">IMAP Server:</label>
+                            <input type="text" id="imapHost" name="host" required data-i18n-placeholder="configForm.imapServerPlaceholder" placeholder="e.g. imap.qq.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="imapPort" data-i18n="configForm.imapPort">IMAP Port:</label>
+                            <input type="number" id="imapPort" name="port" required data-i18n-placeholder="configForm.imapPortPlaceholder" placeholder="e.g. 993" min="1" max="65535">
+                        </div>
+                    </div>
+
+                    <div class="form-row hidden-by-default">
+                        <div class="form-group">
+                            <label for="smtpHost" data-i18n="configForm.smtpServer">SMTP Server:</label>
+                            <input type="text" id="smtpHost" name="smtpHost" required data-i18n-placeholder="configForm.smtpServerPlaceholder" placeholder="e.g. smtp.qq.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="smtpPort" data-i18n="configForm.smtpPort">SMTP Port:</label>
+                            <input type="number" id="smtpPort" name="smtpPort" required data-i18n-placeholder="configForm.smtpServerPlaceholder" placeholder="e.g. 465">
+                        </div>
+                    </div>
+
+                    <div class="form-row hidden-by-default">
+                        <div class="form-group">
+                            <label for="username" data-i18n="configForm.username">Username (Email Address):</label>
+                            <input type="email" id="username" name="username" required
+                                data-i18n-placeholder="configForm.usernamePlaceholder" placeholder="e.g. yourname@example.com">
+                        </div>
+                    </div>
+
+                    <div class="form-row hidden-by-default">
+                        <div class="form-group">
+                            <label for="password" data-i18n="configForm.password">Password:</label>
+                            <input type="password" id="password" name="password" required data-i18n-placeholder="configForm.passwordPlaceholder" placeholder="Enter email password or authorization code">
+                        </div>
+                    </div>
+
+                    <div class="form-row hidden-by-default">
+                        <div class="form-group checkbox-group">
+                            <input type="checkbox" id="tls" name="tls" checked>
+                            <label for="tls" data-i18n="configForm.useTLS">Use TLS</label>
+                        </div>
+                    </div>
+
+                    <!-- Avatar display area -->
+                    <div class="form-row hidden-by-default">
+                        <div class="form-group">
+                            <label for="avatar-preview" data-i18n="configForm.avatar">Avatar:</label>
+                            <div id="avatar-preview" data-i18n-title="configForm.avatarUploadTip" title="Click to upload image"
+                                style="width: 48px; height: 48px; border: 1px solid #ccc; margin: 10px 0; cursor: pointer; overflow: hidden; display: flex; align-items: center; justify-content: center;"></div>
+                            <input type="hidden" id="avatar" name="avatar">
+                            <input type="file" id="avatar-upload" accept="image/*" style="display: none;">
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-success" data-i18n="login.saveAccount">💾 Save Account</button>
+                        <button type="button" id="cancelBtn" class="btn btn-secondary" data-i18n="login.cancelBtn">❌ Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Side-by-side webcom container -->
+        <div class="webcom-container" style="display: none;">
+
+            <div class="webcom-wrapper">
+
+                <div class="webcom-content">
+                    <mailink-sender id="mailsender"></mailink-sender>
+                </div>
+            </div>
+
+            <!-- Chat webcoms will be dynamically added here -->
+
+        </div>
+        
+        <!-- [New] Inbox panel - floating at the topmost layer -->
+        <mailink-inbox-panel id="inboxPanel" style="display: none;"></mailink-inbox-panel>
+
+        <!-- Receive emails -->
+        <mailink-recver id="mailrecver"></mailink-recver>
+
+
+
+    </div>
+
+    <script type="module" src="email-list-component/index.js"></script>
+    <script type="module" src="inbox-panel-component/index.js?v=3"></script>
+    <script type="module" src="mailsender/index.js"></script>
+    <script type="module" src="mailrecver/index.js"></script>
+    <script type="module" src="index/index.js"></script>
+
+    <script>
+    (function() {
+        function bindTitlebarButtons() {
+            var btns = document.querySelectorAll('.titlebar-btn');
+            console.log('[Titlebar-Inline] Buttons found:', btns.length, ', electronAPI:', !!window.electronAPI);
+
+            btns.forEach(function(btn) {
+                if (btn._titlebarBound) return;
+                btn._titlebarBound = true;
+
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    console.log('[Titlebar-Inline] Button clicked, class:', btn.className);
+
+                    if (!window.electronAPI || !window.electronAPI.windowControl) {
+                        console.error('[Titlebar-Inline] electronAPI.windowControl unavailable!');
+                        return;
+                    }
+
+                    if (btn.classList.contains('minimize')) {
+                        window.electronAPI.windowControl('minimize');
+                    } else if (btn.classList.contains('maximize')) {
+                        window.electronAPI.windowControl('maximize');
+                    } else if (btn.classList.contains('close')) {
+                        window.electronAPI.windowControl('close');
+                    } else if (btn.classList.contains('debug')) {
+                        if (window.electronAPI.toggleDevTools) {
+                            window.electronAPI.toggleDevTools();
+                        }
+                    } else if (btn.classList.contains('logout')) {
+                        var msg = (window.i18n && window.i18n.t) ? window.i18n.t('dialog.logoutConfirm') : 'Are you sure you want to log out?';
+                        if (confirm(msg)) {
+                            if (window.stopBusinessWorkers) window.stopBusinessWorkers();
+                            sessionStorage.removeItem('mymail');
+                            localStorage.removeItem('config');
+                            window.location.reload();
+                        }
+                    }
+                });
+            });
+
+            var dragRegion = document.querySelector('.titlebar-drag-region');
+            if (dragRegion && !dragRegion._titlebarDblClickBound) {
+                dragRegion._titlebarDblClickBound = true;
+                dragRegion.addEventListener('dblclick', function() {
+                    if (window.electronAPI && window.electronAPI.windowControl) {
+                        window.electronAPI.windowControl('maximize');
+                    }
+                });
+            }
+
+            console.log('[Titlebar-Inline] Titlebar button events bound');
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', bindTitlebarButtons);
+        } else {
+            bindTitlebarButtons();
+        }
+    })();
+    </script>
+</body>
+
+</html>

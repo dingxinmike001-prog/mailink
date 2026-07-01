@@ -1,0 +1,70 @@
+<div class="form-container">
+    <div class="form-header">
+        <div class="header-content">
+            <div class="header-actions">
+                <button type="button" id="add-contact-btn" class="add-contact-btn small-btn" data-i18n="sender.addFriend">➕️ Add Friend</button>
+                <button type="button" id="compose-email-btn" class="compose-email-btn small-btn" data-i18n="sender.composeEmail">✉️ Compose Email</button>
+                <button type="button" id="inbox-btn" class="inbox-btn small-btn" data-i18n="sender.inbox">📧 Inbox</button>
+            </div>
+        </div>
+    </div>
+
+    <mailink-contact-list id="contact-list"></mailink-contact-list>
+
+    <!-- Compose email component -->
+    <mailink-email-compose id="email-compose"></mailink-email-compose>
+
+    <input type="text" id="subject" required class="hidden-field">
+    <span id="statusArea"></span>
+
+    <div id="add-contact-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" data-modal="add-contact-modal">&times;</span>
+            <h3 data-i18n="sender.addFriendModalTitle">Add friend</h3>
+            <div class="form-group">
+                <label for="contact-name" data-i18n="sender.nameLabel">name:</label>
+                <input type="text" id="contact-name" required>
+            </div>
+            <div class="form-group">
+                <label for="contact-email" data-i18n="sender.emailLabel">mailbox:</label>
+                <input type="email" id="contact-email" required>
+            </div>
+            <div class="form-group">
+                <label for="contact-readme" data-i18n="sender.readmeLabel">Request to add as friend:</label>
+                <input type="text" id="contact-readme" data-i18n-placeholder="sender.readmePlaceholder" placeholder="I am：">
+            </div>
+            <div class="form-actions">
+                <button type="button" id="save-contact-btn" data-i18n="common.save">Save</button>
+                <button type="button" id="cancel-contact-btn" data-i18n="common.cancel">cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="edit-contact-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" data-modal="edit-contact-modal">&times;</span>
+            <h3 data-i18n="sender.editFriendModalTitle">Edit friend</h3>
+            <div class="form-group">
+                <label for="edit-contact-name" data-i18n="sender.nameLabel">name:</label>
+                <input type="text" id="edit-contact-name" required>
+            </div>
+            <div class="form-group">
+                <label for="edit-contact-nickname" data-i18n="sender.nicknameLabel">Nickname:</label>
+                <input type="text" id="edit-contact-nickname" readonly disabled>
+            </div>
+            <div class="form-group">
+                <label for="edit-contact-email" data-i18n="sender.emailLabel">mailbox:</label>
+                <input type="email" id="edit-contact-email" readonly disabled>
+            </div>
+            <div class="form-actions">
+                <button type="button" id="update-contact-btn" data-i18n="common.update">Update</button>
+                <button type="button" id="cancel-edit-contact-btn" data-i18n="common.cancel">cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="hidden-field">
+        <label for="body" data-i18n="sender.contentLabel">Content:</label>
+        <textarea id="body" required>00000</textarea>
+    </div>
+</div>

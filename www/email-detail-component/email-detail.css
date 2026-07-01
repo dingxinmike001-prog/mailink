@@ -1,0 +1,445 @@
+/* ============================================
+   Email detail overlay
+   Using unified spec: --z-light-modal (10800)
+   ============================================ */
+.email-detail-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 10800; /* Matches --z-light-modal */
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.email-detail-overlay.show {
+    display: flex;
+    opacity: 1;
+}
+
+.email-detail-modal {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transform: scale(0.9);
+    transition: all 0.3s ease;
+}
+
+.email-detail-overlay.show .email-detail-modal {
+    transform: scale(1);
+}
+
+/* Maximized state - constrained below the title bar */
+.email-detail-modal.maximized {
+    width: 100% !important;
+    max-width: 100% !important;
+    max-height: calc(100vh - 32px) !important;
+    height: calc(100vh - 32px) !important;
+    border-radius: 0;
+    margin-top: 32px;
+}
+
+.email-detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid #f0f0f0;
+    background: #fafafa;
+    flex-shrink: 0;
+    cursor: default;
+    user-select: none;
+}
+
+.email-detail-center-actions {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.reply-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 16px;
+    border: 1px solid #1890ff;
+    background: #1890ff;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.reply-btn:hover {
+    background: #40a9ff;
+    border-color: #40a9ff;
+}
+
+.reply-btn:active {
+    background: #096dd9;
+    border-color: #096dd9;
+}
+
+.reply-btn svg {
+    flex-shrink: 0;
+}
+
+/* Title bar is draggable when not maximized */
+.email-detail-modal:not(.maximized) .email-detail-header {
+    cursor: move;
+}
+
+/* Styles while dragging */
+.email-detail-modal.dragging {
+    transition: none;
+    opacity: 0.9;
+}
+
+/* Dialog position when not maximized */
+.email-detail-modal:not(.maximized) {
+    position: relative;
+}
+
+.email-detail-title {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: #262626;
+}
+
+.email-detail-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.maximize-btn,
+.close-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #8c8c8c;
+    transition: all 0.2s;
+}
+
+.maximize-btn:hover,
+.close-btn:hover {
+    background: #f5f5f5;
+    color: #262626;
+}
+
+.close-btn:hover {
+    background: #ff4d4f;
+    color: #fff;
+}
+
+/* Maximize button icon toggle */
+.maximize-btn .icon-restore {
+    display: none;
+}
+
+.maximize-btn.restore .icon-maximize {
+    display: none;
+}
+
+.maximize-btn.restore .icon-restore {
+    display: block;
+}
+
+.email-detail-content {
+    flex: 1;
+    overflow: auto;
+    padding: 16px;
+    min-height: 0;
+}
+
+.email-detail-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    gap: 12px;
+}
+
+.loading-spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid #f0f0f0;
+    border-top-color: #1890ff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.email-detail-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.empty-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+}
+
+.empty-text {
+    font-size: 14px;
+    color: #8c8c8c;
+}
+
+.email-detail-body {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.email-field {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 8px 0;
+    border-bottom: 1px solid #f5f5f5;
+}
+
+/* Display multiple fields in one row */
+.email-field-row {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+    align-items: flex-start;
+}
+
+.email-field-row .email-field-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
+}
+
+.email-field-row .field-value {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.field-label {
+    font-size: 13px;
+    color: #8c8c8c;
+    font-weight: 500;
+    white-space: nowrap;
+    flex-shrink: 0;
+    min-width: 60px;
+}
+
+.field-value {
+    font-size: 13px;
+    color: #262626;
+    word-break: break-all;
+    flex: 1;
+}
+
+.email-attachments {
+    padding: 8px 0;
+    border-bottom: 1px solid #f5f5f5;
+}
+
+.attachments-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.attachments-count {
+    font-size: 12px;
+    color: #1890ff;
+    background: #e6f7ff;
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+
+.attachments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.attachment-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: #fafafa;
+    border-radius: 4px;
+    border: 1px solid #f0f0f0;
+}
+
+.attachment-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.attachment-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.attachment-name {
+    font-size: 13px;
+    color: #262626;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.attachment-size {
+    font-size: 12px;
+    color: #8c8c8c;
+}
+
+.email-content {
+    padding: 8px 0;
+}
+
+.content-header {
+    margin-bottom: 12px;
+}
+
+.content-body {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #262626;
+    background: #fafafa;
+    padding: 16px;
+    border-radius: 4px;
+    border: 1px solid #f0f0f0;
+    min-height: 200px;
+    max-height: 400px;
+    overflow: auto;
+    word-wrap: break-word;
+}
+
+/* Body area height adjustment when maximized */
+.email-detail-modal.maximized .content-body {
+    max-height: calc(100vh - 350px);
+}
+
+.content-body pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    margin: 0;
+    font-family: inherit;
+}
+
+.content-body img {
+    max-width: 100%;
+    height: auto;
+}
+
+.content-body a {
+    color: #1890ff;
+    text-decoration: none;
+}
+
+.content-body a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive: dialog is full-width on small screens */
+@media (max-width: 600px) {
+    .email-detail-overlay {
+        padding: 10px;
+    }
+    
+    .email-detail-modal {
+        width: 100%;
+        max-height: 95vh;
+    }
+}
+
+/* Attachment component container styles */
+.attachment-item-component {
+    margin: 4px 0;
+}
+
+.attachment-item-component:first-child {
+    margin-top: 0;
+}
+
+.attachment-item-component:last-child {
+    margin-bottom: 0;
+}
+
+.email-loading-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 0;
+}
+
+.email-loading-text {
+    color: #8c8c8c;
+    margin-bottom: 20px;
+}
+
+.email-loading-dots {
+    display: flex;
+    gap: 8px;
+}
+
+.email-loading-dot {
+    width: 12px;
+    height: 12px;
+    background-color: #1890ff;
+    border-radius: 50%;
+    animation: bounce 1.4s ease-in-out infinite both;
+}
+
+.email-loading-dot:nth-child(2) {
+    animation-delay: 0.16s;
+}
+
+.email-loading-dot:nth-child(3) {
+    animation-delay: 0.32s;
+}
+
+@keyframes bounce {
+    0%, 80%, 100% {
+        transform: scale(0);
+        opacity: 0.5;
+    }
+    40% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}

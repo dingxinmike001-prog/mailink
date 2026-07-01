@@ -1,0 +1,38 @@
+<div class="email-list-container">
+
+    <div class="email-list-content">
+        <table class="email-table">
+            <thead>
+                <tr>
+                    <th class="checkbox-col">
+                        <input type="checkbox" id="selectAllCheckbox" data-i18n-title="common.selectAll" title="Select All">
+                    </th>
+                    <th data-i18n="emailList.sender">Sender</th>
+                    <th data-i18n="emailList.subject">Subject</th>
+                    <th data-i18n="emailList.receiveTime">Received Time</th>
+                </tr>
+            </thead>
+            <tbody id="emailTableBody">
+                <!-- Email list will be dynamically generated here -->
+            </tbody>
+        </table>
+        
+        <div id="emptyState" class="empty-state" style="display: none;">
+            <div class="empty-icon">📧</div>
+            <div class="empty-text" data-i18n="emailList.noEmails">No emails</div>
+        </div>
+        
+        <div id="loadingState" class="loading-state" style="display: none;">
+            <div class="loading-spinner"></div>
+            <div class="loading-text" data-i18n="common.loading">Loading...</div>
+        </div>
+    </div>
+    
+    <div class="email-list-footer">
+        <div class="pagination">
+            <button id="prevBtn" class="page-btn" disabled data-i18n="common.prevPage">Previous</button>
+            <span class="page-info"><span id="currentPage">1</span> <span data-i18n="common.pageSeparator">/</span> <span id="totalPages">1</span></span>
+            <button id="nextBtn" class="page-btn" disabled data-i18n="common.nextPage">Next</button>
+        </div>
+    </div>
+</div>

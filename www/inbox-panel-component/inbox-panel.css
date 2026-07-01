@@ -1,0 +1,366 @@
+/* ============================================
+   Inbox panel styles
+   Using unified spec: --z-light-inbox-panel (10100)
+   ============================================ */
+
+/* Overlay styles */
+.inbox-panel-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 10100; /* Matches --z-light-inbox-panel */
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.inbox-panel-overlay.show {
+    display: block;
+    opacity: 1;
+}
+
+.inbox-panel {
+    position: fixed;
+    top: 32px;
+    left: 240px;
+    right: 0;
+    bottom: 0;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transform: scale(0.98);
+    transition: transform 0.3s ease;
+}
+
+.inbox-panel-overlay.show .inbox-panel {
+    transform: scale(1);
+}
+
+.inbox-panel.show {
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.inbox-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: 1px solid #f0f0f0;
+    background: #fafafa;
+    flex-shrink: 0;
+    cursor: move;
+    user-select: none;
+}
+
+.inbox-panel-header:active {
+    cursor: grabbing;
+}
+
+.inbox-panel.dragging {
+    opacity: 0.95;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+    transition: box-shadow 0.2s ease;
+}
+
+.inbox-panel-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #262626;
+}
+
+.title-icon {
+    font-size: 16px;
+}
+
+.inbox-panel-count {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 13px;
+    color: #8c8c8c;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.delete-selected-btn,
+.mark-all-read-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    border: none;
+    background: transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #1890ff;
+    font-size: 12px;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.delete-selected-btn {
+    color: #ff4d4f;
+}
+
+.delete-selected-btn:hover {
+    background: #fff1f0;
+}
+
+.delete-selected-btn:active {
+    background: #ffccc7;
+}
+
+.delete-selected-btn:disabled {
+    color: #bfbfbf;
+    cursor: not-allowed;
+    background: transparent;
+}
+
+.delete-selected-btn svg {
+    flex-shrink: 0;
+}
+
+.mark-all-read-btn:hover {
+    background: #e6f7ff;
+}
+
+.mark-all-read-btn:active {
+    background: #bae7ff;
+}
+
+.mark-all-read-btn:disabled {
+    color: #bfbfbf;
+    cursor: not-allowed;
+    background: transparent;
+}
+
+.mark-all-read-btn svg {
+    flex-shrink: 0;
+}
+
+.inbox-panel-actions {
+    display: flex;
+    gap: 4px;
+}
+
+.refresh-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #8c8c8c;
+    transition: all 0.2s;
+    position: relative;
+}
+
+.refresh-btn:hover {
+    background: #f5f5f5;
+    color: #262626;
+}
+
+.refresh-btn.spinning svg {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.minimize-btn,
+.maximize-btn,
+.close-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #8c8c8c;
+    transition: all 0.2s;
+    position: relative;
+}
+
+.minimize-btn:hover,
+.maximize-btn:hover,
+.close-btn:hover {
+    background: #f5f5f5;
+    color: #262626;
+}
+
+/* Maximized state - constrained below the title bar */
+.inbox-panel.maximized {
+    top: 32px !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: calc(100vh - 32px) !important;
+    border-radius: 0;
+}
+
+/* Minimized state - bottom-left corner */
+.inbox-panel.minimized {
+    position: fixed;
+    top: auto !important;
+    left: 20px !important;
+    right: auto !important;
+    bottom: 20px !important;
+    width: 200px !important;
+    height: 48px !important;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Minimized state while dragging - keep position and hide elements */
+.inbox-panel.minimized.dragging {
+    top: auto !important;
+    left: var(--drag-left, 20px) !important;
+    right: auto !important;
+    bottom: var(--drag-bottom, 20px) !important;
+    width: 200px !important;
+    height: 48px !important;
+}
+
+.inbox-panel.minimized .inbox-panel-content {
+    display: none;
+}
+
+.inbox-panel.minimized .inbox-panel-header {
+    border-bottom: none;
+}
+
+/* Hide email count area, refresh button, and minimize button when minimized */
+.inbox-panel.minimized .inbox-panel-count,
+.inbox-panel.minimized .refresh-btn,
+.inbox-panel.minimized .minimize-btn,
+.inbox-panel.minimized-dragged .inbox-panel-count,
+.inbox-panel.minimized-dragged .refresh-btn,
+.inbox-panel.minimized-dragged .minimize-btn {
+    display: none;
+}
+
+/* Keep minimized hidden effect after dragging */
+.inbox-panel.minimized-dragged .inbox-panel-content {
+    display: none;
+}
+
+.inbox-panel.minimized-dragged .inbox-panel-header {
+    border-bottom: none;
+}
+
+/* Shorten title text when minimized */
+.inbox-panel.minimized .title-text::after {
+    content: '';
+}
+
+/* Maximize button icon toggle */
+.maximize-btn .icon-restore {
+    display: none;
+}
+
+.maximize-btn.restore .icon-maximize {
+    display: none;
+}
+
+.maximize-btn.restore .icon-restore {
+    display: block;
+}
+
+.inbox-panel-content {
+    flex: 1;
+    overflow: auto;
+    min-height: 0;
+}
+
+.inbox-panel-content mailink-email-list {
+    display: block;
+    height: 100%;
+}
+
+/* Status toast (using unified spec: --z-light-toast) */
+.status-tooltip {
+    position: fixed;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 13px;
+    z-index: 11100; /* Matches --z-light-toast */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.status-tooltip.show {
+    opacity: 1;
+    animation: statusShow 2s ease-in-out forwards;
+}
+
+@keyframes statusShow {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-10px);
+    }
+    10% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+    90% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-10px);
+    }
+}
+
+.status-tooltip.success {
+    background: #f6ffed;
+    color: #52c41a;
+    border: 1px solid #b7eb8f;
+}
+
+.status-tooltip.error {
+    background: #fff2f0;
+    color: #ff4d4f;
+    border: 1px solid #ffccc7;
+}
+
+.status-tooltip.info {
+    background: #e6f7ff;
+    color: #1890ff;
+    border: 1px solid #91d5ff;
+}

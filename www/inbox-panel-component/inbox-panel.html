@@ -1,0 +1,58 @@
+<div class="inbox-panel-overlay" id="inboxOverlay">
+    <div class="inbox-panel" id="inboxPanel">
+        <div class="inbox-panel-header">
+            <div class="inbox-panel-title">
+                <span class="title-icon">📧</span>
+                <span class="title-text" data-i18n="inbox.title">Inbox</span>
+            </div>
+            <div class="inbox-panel-count">
+                <button id="deleteSelectedBtn" class="delete-selected-btn" data-i18n-title="inbox.deleteSelected" title="Delete selected">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    </svg>
+                    <span data-i18n="common.delete">Delete</span>
+                </button>
+                <span data-i18n="common.totalPrefix">total</span> <span id="emailCount">0</span> <span data-i18n="common.totalSuffix">Block</span>
+                <button id="markAllReadBtn" class="mark-all-read-btn" data-i18n-title="inbox.markAllRead" title="mark all as read">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 7V4h3M4 17v3h3M20 7V4h-3M20 17v3h-3M9 9l3 3 3-3M12 12v6"></path>
+                    </svg>
+                    <span data-i18n="inbox.markAllRead">mark all as read</span>
+                </button>
+            </div>
+            <div class="inbox-panel-actions">
+                <button id="refreshBtn" class="refresh-btn" data-i18n-title="common.refresh" title="Refresh">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="23 4 23 10 17 10"></polyline>
+                        <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+                    </svg>
+                </button>
+                <button id="minimizeBtn" class="minimize-btn" data-i18n-title="common.minimize" title="Minimize">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                </button>
+                <button id="maximizeBtn" class="maximize-btn" data-i18n-title="common.maximize" title="maximize">
+                    <svg class="icon-maximize" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    </svg>
+                    <svg class="icon-restore" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="7" y="7" width="12" height="12" rx="1" ry="1"></rect>
+                        <rect x="3" y="3" width="12" height="12" rx="1" ry="1" fill="var(--bg-color, #fafafa)"></rect>
+                    </svg>
+                </button>
+                <button id="closeBtn" class="close-btn" data-i18n-title="common.close" title="close">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <div class="inbox-panel-content">
+            <mailink-email-list id="emailList"></mailink-email-list>
+        </div>
+    </div>
+</div>

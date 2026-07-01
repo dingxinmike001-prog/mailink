@@ -1,0 +1,81 @@
+{
+  "name": "mailink",
+  "version": "1.0.0",
+  "description": "An Electron application for reading emails via IMAP",
+  "main": "main.js",
+  "scripts": {
+    "postinstall": "electron-rebuild -f -w better-sqlite3",
+    "start": "electron .",
+    "dev": "electron .",
+    "start:dual": "node start.js",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "build:win": "electron-builder --win --x64"
+  },
+  "keywords": [
+    "electron",
+    "imap",
+    "email"
+  ],
+  "author": "Mailink Developer",
+  "license": "MIT",
+  "devDependencies": {
+    "bing-translate-api": "^4.2.0",
+    "electron": "^38.0.0",
+    "electron-builder": "^24.0.0",
+    "electron-rebuild": "^3.2.9"
+  },
+  "dependencies": {
+    "better-sqlite3": "^12.5.0",
+    "bindings": "^1.5.0",
+    "file-uri-to-path": "^1.0.0",
+    "imap": "^0.8.19",
+    "mailparser": "^3.6.5",
+    "mp4box": "^2.3.0",
+    "mysql2": "^3.19.1",
+    "nodemailer": "^7.0.10",
+    "punycode.js": "^2.3.1",
+    "sharp": "^0.34.5",
+    "utf7": "^1.0.2"
+  },
+  "build": {
+    "appId": "com.mailink.app",
+    "productName": "Mailink",
+    "directories": {
+      "output": "output"
+    },
+    "asar": true,
+    "files": [
+      "**/*",
+      "!bak/**",
+      "!dist/**",
+      "!log/**",
+      "!.tools/**"
+    ],
+    "extraResources": [
+      {
+        "from": "resources",
+        "to": ".",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "win": {
+      "icon": "resources/sys/assets/256.ico",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  }
+}

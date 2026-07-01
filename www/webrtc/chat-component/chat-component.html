@@ -1,0 +1,104 @@
+<!-- Main content container -->
+<div id="main-content">
+  <div id="chatDisplay">
+  </div>
+  <div id="composerArea">
+  <div id="video-container">
+    <div id="video-drag-handle" data-i18n="chat.videoCallTitle">Video Call</div>
+    <video id="localVideo" autoplay muted
+      style="width: 160px; height: 120px; position: absolute; top: 34px; right: 10px; border: 2px solid #4CAF50; border-radius: 5px; z-index: 10;"></video>
+    <video id="remoteVideo" autoplay muted
+      style="width: 100%; height: 100%; object-fit: cover;"></video>
+  </div>
+  <!-- Top button container -->
+  <div id="top-controls">
+    <!-- Emoji picker button -->
+    <emoji-picker id="emojiPickerBtn"></emoji-picker>
+
+    <!-- File select button -->
+    <input type="file" id="fileInput" style="display: none;">
+    <button id="selectFileBtn" class="unified-btn">
+      <span class="icon">📁</span> <span data-i18n="chat.fileBtn">File</span>
+    </button>
+    
+    <!-- Call control buttons -->
+    <button id="videoCallBtn" class="unified-btn call-btn call-init" disabled>
+      <span class="icon">📹</span> <span data-i18n="chat.videoCallBtn">Video Call</span>
+    </button>
+    <button id="toggleVideoBtn" class="unified-btn call-btn call-active" disabled style="display: none;">
+      <span class="icon">📹</span> <span class="btn-text" data-i18n="chat.toggleVideoBtn">Turn Off Video</span>
+    </button>
+    <button id="toggleAudioBtn" class="unified-btn call-btn call-active" disabled style="display: none;">
+      <span class="icon">🔊</span> <span class="btn-text" data-i18n="chat.toggleAudioBtn">Turn Off Audio</span>
+    </button>
+    <button id="endCallBtn" class="unified-btn call-btn call-active end-call" disabled style="display: none;">
+      <span class="icon">⏹️</span> <span data-i18n="chat.endCallBtn">End Call</span>
+    </button>
+    
+    <!-- Voice call button -->
+    <button id="callBtn" class="unified-btn call-btn call-init" disabled="true">
+      <span class="icon">📞</span> <span data-i18n="chat.voiceCallBtn">Voice Call</span>
+    </button>
+    
+    <!-- Status display -->
+    <div id="status" style="margin-left: auto; opacity: 1; font-size: 14px; color: #666; cursor: pointer;" data-i18n="chat.connecting">Starting connection...</div>
+  </div>
+
+  <!-- Signaling log (displayed at bottom) -->
+  <textarea data-i18n-title="chat.signalLogTitle" title="Signaling Log" id="chatlog" readonly rows="2" style="display: none;"></textarea>
+  
+  <div id="msgInputContainer" style="width: 100%; border: 1px solid #ccc; border-radius: 4px; padding: 5px; background: white; margin: 6px 0; transition: border-color 0.2s; box-sizing: border-box;">
+    <div id="fileInfo"></div>
+    <textarea id="msgInput" data-i18n-placeholder="chat.msgPlaceholder" placeholder="Type a message..." rows="4" style="width: 100%; border: none; outline: none; resize: none; margin-top: 0; padding: 5px; box-sizing: border-box;"></textarea>
+  </div>
+
+  <!-- Unified button container -->
+  <div id="all-controls" style="display: flex; gap: 10px; margin: 6px 0; align-items: center;">
+    
+    <!-- Send button (aligned right) -->
+    <button id="sendBtn" class="unified-btn" style="margin-left: auto;" data-i18n="common.send">Send</button>
+    <audio id="remoteAudio" autoplay></audio>
+  </div>
+  </div>
+
+  <!-- File receive confirmation dialog -->
+  <div id="fileAcceptDialog" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border: 1px solid #ccc; border-radius: 8px; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+    <h3 data-i18n="chat.fileTransferRequest">File Transfer Request</h3>
+    <div id="incomingFileInfo" style="margin: 15px 0;"></div>
+    <div style="display: flex; justify-content: flex-end; gap: 10px;">
+      <button id="rejectFileBtn" data-i18n="chat.reject">Reject</button>
+      <button id="acceptFileBtn" style="background-color: #4CAF50; color: white;" data-i18n="chat.accept">Accept</button>
+    </div>
+  </div>
+
+  <div id="callAcceptDialog" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border: 1px solid #ccc; border-radius: 8px; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); min-width: 260px;">
+    <h3 data-i18n="chat.callRequest">Call Request</h3>
+    <div id="incomingCallInfo" style="margin: 15px 0;" data-i18n="chat.incomingCall">Incoming call request</div>
+    <div style="display: flex; justify-content: flex-end; gap: 10px;">
+      <button id="rejectCallBtn" data-i18n="chat.reject">Reject</button>
+      <button id="acceptCallBtn" style="background-color: #4CAF50; color: white;" data-i18n="chat.answer">Answer</button>
+    </div>
+  </div>
+
+  <!-- Overlay -->
+  <div id="overlay" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;"></div>
+
+  <!-- Message input context menu -->
+  <div id="msgInputContextMenu" class="context-menu" style="display: none;">
+    <div class="context-menu-item" data-action="paste">
+      <span class="context-menu-icon">📋</span>
+      <span class="context-menu-text" data-i18n="chat.paste">Paste</span>
+    </div>
+    <div class="context-menu-separator"></div>
+    <div class="context-menu-item" data-action="clear">
+      <span class="context-menu-icon">🗑️</span>
+      <span class="context-menu-text" data-i18n="chat.clear">Clear</span>
+    </div>
+    <div class="context-menu-separator"></div>
+    <div class="context-menu-item" data-action="clearChatHistory">
+      <span class="context-menu-icon">🗑️</span>
+      <span class="context-menu-text" data-i18n="chat.clearChatHistory">Clear Chat History</span>
+    </div>
+  </div>
+
+</div>

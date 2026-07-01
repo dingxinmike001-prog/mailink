@@ -1,0 +1,158 @@
+/**
+ * ============================================
+ * Mailink unified z-index management file
+ * ============================================
+ * 
+ * Usage guidelines:
+ * 1. Light DOM (global z-index): use --z-light-* variables
+ * 2. Shadow DOM (component internal z-index): use --z-shadow-* variables
+ * 3. Component internal element z-index range: 1-1000
+ * 4. Global z-index range: 10000-11200 (increments of 100)
+ * 
+ * Layer order (from low to high):
+ * base content → floating elements → overlays → modals → special top layers
+ * 
+ * Change log:
+ * 2026-04-14: Initial version, unified project-wide z-index specification
+ */
+
+/* ============================================
+   Light DOM global z-index
+   Used for stacking order between components
+   Range: 10000-11200
+   ============================================ */
+:root {
+  /* Base layer */
+  --z-light-base: 10000;
+  
+  /* Floating panel */
+  --z-light-inbox-panel: 10100;      /* Inbox panel - inbox-panel.css */
+  --z-light-recver: 10200;           /* Email receiver - mailink-recver.css */
+  
+  /* Title bar */
+  --z-light-titlebar: 10300;         /* Custom title bar - index/styles.css */
+  
+  /* Status message */
+  --z-light-status: 10400;           /* Global status messages - component status messages */
+  
+  /* Overlay */
+  --z-light-overlay: 10500;          /* Generic overlay */
+  --z-light-compose-overlay: 10600;  /* Email compose overlay - email-compose.css */
+  
+  /* TinyMCE editor z-index (inside email compose component) */
+  --z-light-tinymce-backdrop: 10600; /* TinyMCE dialog backdrop */
+  --z-light-tinymce-wrap: 10610;     /* TinyMCE dialog container */
+  --z-light-tinymce-dialog: 10620;   /* TinyMCE dialog content */
+  --z-light-tinymce-aux: 10630;      /* TinyMCE helper elements */
+  --z-light-tinymce-menu: 10640;     /* TinyMCE dropdown menu */
+  
+  /* Modal */
+  --z-light-modal-backdrop: 10700;   /* Modal backdrop - mailsender/mailink-sender.css */
+  --z-light-modal: 10800;            /* Modal content - email-detail.css */
+  
+  /* Special top layers */
+  --z-light-context-menu: 10900;     /* Context menu - context-menu.js */
+  --z-light-tooltip: 11000;          /* Tooltip */
+  --z-light-toast: 11100;            /* Toast messages - inbox-panel.css, email-compose.css */
+  --z-light-max: 11200;              /* Highest layer (use with caution) */
+}
+
+/* ============================================
+   Shadow DOM internal z-index (Component Internal z-index)
+   Used for stacking order of elements inside components
+   Range: 1-1000
+   ============================================ */
+
+/* Base layer */
+--z-shadow-base: 1;
+
+/* Content layer */
+--z-shadow-content: 10;              /* Base content - index/styles.css .webcom-wrapper.active */
+
+/* Floating elements */
+--z-shadow-floating: 100;            /* Floating elements - index/styles.css .webcom-wrapper */
+
+/* Dropdown menu */
+--z-shadow-dropdown: 200;            /* Dropdown suggestion layer - email-compose.css */
+
+/* Popover */
+--z-shadow-popover: 500;             /* Popover - chat-component.css #video-container */
+
+/* Overlay */
+--z-shadow-backdrop: 800;            /* Overlay - emoji-picker.js */
+
+/* Modal */
+--z-shadow-modal: 900;               /* Modal - emoji-picker.js */
+
+/* Special top layers */
+--z-shadow-max: 1000;                /* Highest layer inside component */
+
+/* ============================================
+   Usage examples
+   ============================================ */
+
+/* 
+Light DOM example (use in global CSS):
+.mailink-inbox-panel {
+    z-index: var(--z-light-inbox-panel);
+}
+
+Shadow DOM example (use in component internal CSS):
+.dropdown-menu {
+    z-index: var(--z-shadow-dropdown);
+}
+
+Direct value example (recommended to add comment):
+.my-element {
+    z-index: 10100; // matches --z-light-inbox-panel
+}
+*/
+
+/* ============================================
+   Layer relationship diagram
+   ============================================
+   
+   Light DOM (global):
+   10000 [base]
+     ↓
+   10100 [inbox-panel] Inbox panel
+     ↓
+   10200 [recver] Email receiver
+     ↓
+   10300 [titlebar] Title bar
+     ↓
+   10400 [status] Status message
+     ↓
+   10500 [overlay] Generic overlay
+     ↓
+   10600-10640 [compose/tinymce] Email compose / TinyMCE
+     ↓
+   10700 [modal-backdrop] Modal backdrop
+     ↓
+   10800 [modal] Modal content
+     ↓
+   10900 [context-menu] Context menu
+     ↓
+   11000 [tooltip] Tooltip
+     ↓
+   11100 [toast] Toast message
+     ↓
+   11200 [max] Highest layer
+   
+   Shadow DOM (component internal):
+   1 [base]
+     ↓
+   10 [content] Content
+     ↓
+   100 [floating] Floating elements
+     ↓
+   200 [dropdown] Dropdown menu
+     ↓
+   500 [popover] Popover
+     ↓
+   800 [backdrop] Overlay
+     ↓
+   900 [modal] Modal
+     ↓
+   1000 [max] Highest layer
+*/
