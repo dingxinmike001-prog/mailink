@@ -1,13 +1,5 @@
 [
-  {
-    "code": "tc",
-    "name": "繁體中文"
-  },
-  {
-    "code": "sc",
-    "name": "简体中文"
-  },
-  {
+    {
     "code": "en",
     "name": "English"
   },
@@ -18,6 +10,13 @@
   {
     "code": "de",
     "name": "Deutsch"
+  },{
+    "code": "tc",
+    "name": "繁體中文"
+  },
+  {
+    "code": "sc",
+    "name": "简体中文"
   },
   {
     "code": "ja",
