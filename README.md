@@ -1,5 +1,7 @@
 # Mailink
 
+Author contact email: dingxinmike001@gmail.com
+
 ## Project Introduction
 
 Mailink is a cross-platform email client based on **Electron 38**. It reads mailboxes via the IMAP protocol and displays email content. The project integrates core features such as **IMAP long-connection management, email parsing, and SQLite local storage**, providing an intuitive UI to help users quickly view emails from the last two days.

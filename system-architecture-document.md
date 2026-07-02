@@ -1,5 +1,7 @@
 # Mailink System Architecture Document
 
+Author Contact Email: dingxinmike001@gmail.com
+
 ## 1. Project Overview
 
 ### 1.1 Project Introduction
